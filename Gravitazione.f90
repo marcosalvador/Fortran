@@ -56,7 +56,7 @@ if (z==0) then
 
 else
 	
-	dt=86400_kr									!Sole, Terra, Giove
+	dt=86400_kr								!Sole, Terra, Giove
 	nstep=3650_kr
 	pos(:,1)=[0.0_kr,0.0_kr,0.0_kr]
 	pos(:,2)=[152.1e9_kr,0.0_kr,0.0_kr]
