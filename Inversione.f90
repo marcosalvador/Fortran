@@ -5,6 +5,8 @@
 !Per l’inversione numerica si deve risolvere l’equazione (per l’incognita y) 
 !ρ − integrale_da_0_a_infinito (sqrt(x)/(exp(x-y)-1) dx = 0 dove ρ è un numero fissato dall’esterno.
 
+
+
 module prec
    integer, parameter :: rk=selected_real_kind(8)
 end module prec
