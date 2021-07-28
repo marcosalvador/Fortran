@@ -1,4 +1,9 @@
-!Marco Salvador
+!Invertire numericamente l’equazione ρ(y) = integrale_da_0_a_infinito (sqrt(x)/(exp(x-y)-1) dx dove y<0,
+!in modo da ottenere la funzione y(ρ) da graficare. 
+!L’integrale è da calcolare sia con il metodo dei trapezi sia con il metodo di Cavalieri-Simpson, discutendo
+!le scelte degli intervallini di integrazione e il trattamento dell’estremo superiore infinito.
+!Per l’inversione numerica si deve risolvere l’equazione (per l’incognita y) 
+!ρ − integrale_da_0_a_infinito (sqrt(x)/(exp(x-y)-1) dx = 0 dove ρ è un numero fissato dall’esterno.
 
 module prec
    integer, parameter :: rk=selected_real_kind(8)
@@ -12,7 +17,7 @@ implicit none
 
 contains
 	
-	function f(x,y) result(z)						!funzione da integrare
+	function f(x,y) result(z)					!funzione da integrare
 	real(kind=rk), intent(in) :: x,y
 	real(kind=rk) :: z
 	z = sqrt(x)/(exp(x-y)-1.0_rk)					!x>=0 ; y<0
@@ -44,7 +49,7 @@ contains
     
     
 
-    function cavsim(fun,j) result(res)				!integrale con il metodo di Cavalieri-Simpson
+    function cavsim(fun,j) result(res)					!integrale con il metodo di Cavalieri-Simpson
 		integer, parameter :: n = 1000				!n deve essere pari
 		real(kind=rk), parameter :: a = 0.0_rk , b = 10.0_rk
 		real(kind=rk), intent(in) :: j
@@ -74,8 +79,8 @@ end module funzioni
 
 
 
-module bisezione									!metodo di bisezione per il calcolo degli zeri
-use prec											!dell'equazione integrale
+module bisezione							!metodo di bisezione per il calcolo degli zeri
+use prec								!dell'equazione integrale
 use funzioni
 implicit none
 
@@ -84,7 +89,7 @@ contains
   	subroutine bis(area,rho,res)					!"area" è un argomento simbolico al posto 
   	integer, parameter :: nmax = 20					!del quale si inserirà "trap" o "cavsim"
   	real(kind=rk), parameter :: tol = 0.01_rk
-  	real(kind=rk) :: a,b							![a,b] è l'intervallo dove si cercano le
+  	real(kind=rk) :: a,b						![a,b] è l'intervallo dove si cercano le
   	real(kind=rk), intent(in) :: rho				!soluzioni y dell'equazione integrale
   	real(kind=rk), intent(out) :: res 
   	real(kind=rk) :: c
@@ -104,7 +109,7 @@ contains
 			end function area
   		end interface
   	
-  		a = -50.0_rk								!estremi di [a,b]
+  		a = -50.0_rk						!estremi di [a,b]
 		b = -0.01_rk
 		if ((area(f,a)-rho)*(area(f,b)-rho)>0) then 
 			print*, "Non ci sono zeri nell'intervallo [a,b]"
@@ -155,7 +160,7 @@ k = cavsim(f,y)
 print*, "Integrazione Cavalieri-Simpson", k
 
 
-print*, "Inserire il valore di rho"				!inversione numerica
+print*, "Inserire il valore di rho"					!inversione numerica
 read*, rho
 call bis(trap,rho,res)
 print*, "y1 =", res
@@ -163,7 +168,7 @@ call bis(cavsim,rho,res)
 print*, "y2 =", res
 
 
-!print*, "Dati bisezione con metodo trapezi"		!dati per graficare l'inversione numerica
+!print*, "Dati bisezione con metodo trapezi"				!dati per graficare l'inversione numerica
 !rho = 0.2_rk
 !do s = 1, 20
 !	rho = rho / s
